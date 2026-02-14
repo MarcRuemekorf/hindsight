@@ -1,0 +1,239 @@
+#!/bin/bash
+# =========================================================
+# Taskfile gives you a set of quick tasks for your project
+# More info: https://github.com/Enrise/Taskfile
+# =========================================================
+
+function banner {
+	echo -e "${BLUE}\n"\
+	"██╗  ██╗██╗███╗   ██╗██████╗ ███████╗██╗ ██████╗ ██╗  ██╗████████╗\n"\
+	"██║  ██║██║████╗  ██║██╔══██╗██╔════╝██║██╔════╝ ██║  ██║╚══██╔══╝\n"\
+	"███████║██║██╔██╗ ██║██║  ██║███████╗██║██║  ███╗███████║   ██║   \n"\
+	"██╔══██║██║██║╚██╗██║██║  ██║╚════██║██║██║   ██║██╔══██║   ██║   \n"\
+	"██║  ██║██║██║ ╚████║██████╔╝███████║██║╚██████╔╝██║  ██║   ██║   \n"\
+	"╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝╚═════╝ ╚══════╝╚═╝ ╚═════╝ ╚═╝  ╚═╝   ╚═╝   ${RESET}"
+}
+
+# =========================================================
+## Project
+# =========================================================
+
+function task:init { ## Initialise the project for local development
+	folder:remove node_modules/
+	project:initial-dependencies
+	task:build
+	task:start
+	project:update
+	task:help
+}
+
+function task:start { ## Start the project in development mode
+	title "Run development application"
+	docker:start
+	project:list-hosts
+}
+
+function task:update { ## Update all dependencies and files
+	project:update
+}
+
+function project:update {
+	title "Run project updates"
+	task:frontend:update
+	task:restart
+}
+
+function project:initial-dependencies
+{
+	title "Installing initial dependencies"
+	frontend-run npm install
+}
+
+function project:update {
+	task:frontend:update
+	task:restart
+}
+
+function task:stop { ## Stop the local project
+	docker:stop
+}
+
+function task:restart { ## Restart the local project
+	docker:stop
+	project:delete-cache
+	docker:start
+	project:list-hosts
+}
+
+function task:pr { ## Check out pull request <number> and update
+	project:checkout-pr $1
+	project:update
+}
+
+function project:checkout-pr {
+	title "Checking out pull request"
+	if [ -z "$1" ]; then
+		echo "You need to provide a pull request number to check out."
+		echo -e "${BLUE}Usage:${RESET} $0 pr ${YELLOW}<number>${RESET}"
+		exit 1
+	fi
+	echo "Checking out pull request $1..."
+	git fetch origin refs/pull/$1/head:refs/remotes/origin/pr/$1
+	git checkout origin/pr/$1
+}
+
+function project:list-hosts {
+	title "Running local project"
+	echo -e "Frontend:   ${BLUE}http://localhost:3000${RESET}"
+}
+
+function project:delete-cache {
+	title "Deleting all cache files"
+	folder:remove .next/
+	folder:remove tsconfig.tsbuildinfo
+	folder:remove next-env.d.ts
+}
+
+# =========================================================
+# Docker
+# =========================================================
+
+function task:build { ## Build all docker compose containers
+	title "Building docker compose project"
+	dockercompose build
+}
+
+function docker:start {
+	title "Starting docker compose project"
+	dockercompose up --detach --remove-orphans
+}
+
+function docker:stop {
+	title "Stopping docker compose project"
+	dockercompose down
+}
+
+function task:logs { ## Show the docker compose logs
+	title "Following local logs"
+	dockercompose logs --tail="20" --follow
+}
+
+function docker:assert-running {
+	if [ -z "$(dockercompose ps -q)" ]; then
+		echo -e "${RED}Oh noes, docker was not running yet, starting...${RESET}"
+		task:start
+		title "Resuming task"
+	fi
+}
+
+function frontend-exec {
+	docker:assert-running
+	dockercompose exec app "$@"
+}
+
+function frontend-run {
+	dockercompose run app "$@"
+}
+
+function dockercompose {
+	USERID=$USERID GROUPID=$GROUPID docker compose --file ./docker-compose.yml --ansi=always --project-name hindsight "$@"
+}
+
+# =========================================================
+# Frontend
+# =========================================================
+
+function task:frontend:update { ## Update all frontend dependencies
+	title "Updating frontend dependencies"
+	frontend-exec npm install
+}
+
+function task:frontend:shell { ## Open the frontend bash shell
+	title "Opening frontend bash shell"
+	frontend-exec /bin/sh
+}
+
+# =========================================================
+## Linting
+# =========================================================
+
+function task:lint { ## Check all files for (styling) issues
+	task:oxfmt
+	task:oxlint
+}
+
+function task:lint-staged {
+    title "Linting staged files"
+    frontend-exec lint-staged --config dev/lint/staged.config.mjs --relative
+}
+
+function task:oxfmt { ## Format files
+	title "Format files"
+	frontend-exec npm run fmt . \
+	&& echo -e "All files are ${GREEN}formatted${RESET}."
+}
+
+function task:oxlint { ## Check for linting issues
+	title "Check for linting issues"
+	frontend-exec npm run lint:fix . \
+	&& echo -e "All linting checks ${GREEN}pass${RESET}."
+}
+
+function task:typescript { ## Check for typescript typing issues
+	title "Check for typescript typing issues"
+	frontend-exec tsc --noEmit --project . --pretty \
+	&& echo -e "All typescript types are ${GREEN}correct${RESET}."
+}
+
+# =========================================================
+# Utilities
+# =========================================================
+
+function folder:remove { # Remove a folder if it exists
+	rm -rf $1
+	echo -e "${RED}Removed${RESET} folder ${YELLOW}$1${RESET}."
+}
+
+# =========================================================
+## Taskfile
+# =========================================================
+
+set -eo pipefail
+
+BLUE=$(printf '\033[36m')
+YELLOW=$(printf '\033[33m')
+RED=$(printf '\033[31m')
+GREEN=$(printf '\033[32m')
+RESET=$(printf '\033[0m')
+
+# Define global variables here
+
+function title {
+	echo -e "\n${BLUE}=>${RESET} $1\n"
+}
+
+function task:help { ## Show all available tasks
+	title "Available tasks"
+	awk 'BEGIN {FS = " { [#][#][ ]?"} /^([a-zA-Z_-]*:?.*)(\{ )?[#][#][ ]?/ \
+		{printf "\033[33m%-34s\033[0m %s\n", $1, $2}' $0 |\
+		sed -E "s/[#]{2,}[ ]*/${RESET}/g" |\
+		sed -E "s/function task:*/  /g"
+	echo -e "\n${BLUE}Usage:${RESET} ./Taskfile ${YELLOW}<task>${RESET} <args>"
+}
+
+function task:shorthand { ## Create CLI shorthand task instead of ./Taskfile
+	title "Creating task shorthand"
+	echo -e "You're about to create ${YELLOW}/usr/local/bin/task${RESET} that requires ${RED}root${RESET} permission..."
+	sudo curl --location --silent --output /usr/local/bin/task https://enri.se/taskfile-bin
+	sudo chmod +x /usr/local/bin/task
+	echo -e "${BLUE}You can now use:${RESET} task ${YELLOW}<task>${RESET} <args>"
+}
+
+banner
+if [[ ! "$(declare -F task:${@-help})" ]]; then
+	title "Task not found"
+	echo -e "Task ${RED}$1${RESET} doesn't exist."
+	task:help
+	exit 1
+fi
+task:${@-help}
