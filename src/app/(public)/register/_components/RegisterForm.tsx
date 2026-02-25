@@ -1,63 +1,40 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, Fieldset, Stack, VStack } from "@chakra-ui/react";
+import { Button, Fieldset, Stack } from "@chakra-ui/react";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { useState, useTransition } from "react";
-import { toaster } from "@/components/ui/toaster";
-import { logIn } from "@/utils/auth-client";
 import TextInput from "@/components/form/TextInput";
 import { Alert } from "@/components/ui/alert";
 
-const logInSchema = z.object({
+const registerSchema = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters long."),
   email: z.email("Please enter a valid email address."),
   password: z.string().min(1, "Password is required."),
-  rememberMe: z.boolean(),
+  passwordConfirmation: z.string().min(1, "Password confirmation is required."),
 });
 
-type LogInFormValues = z.infer<typeof logInSchema>;
+type RegisterFormValues = z.infer<typeof registerSchema>;
 
-const LoginForm = () => {
+const RegisterForm = () => {
   const [error, setError] = useState<string | null>(null);
   const [loading, startTransition] = useTransition();
 
-  const { control, handleSubmit } = useForm<LogInFormValues>({
-    resolver: zodResolver(logInSchema),
+  const { control, handleSubmit } = useForm<RegisterFormValues>({
+    resolver: zodResolver(registerSchema),
     defaultValues: {
+      name: "",
       email: "",
       password: "",
-      rememberMe: false,
+      passwordConfirmation: "",
     },
   });
 
-  const onSubmit = async (data: LogInFormValues): Promise<void> => {
+  const onSubmit = async (data: RegisterFormValues): Promise<void> => {
     setError(null);
 
-    startTransition(async () => {
-      await logIn.email(
-        {
-          email: data.email,
-          password: data.password,
-          rememberMe: data.rememberMe,
-        },
-        {
-          onSuccess() {
-            toaster.create({
-              description: "Successfully logged in",
-              type: "info",
-            });
-          },
-          onError(context) {
-            setError(context.error.message);
-            toaster.create({
-              description: context.error.message,
-              type: "error",
-            });
-          },
-        },
-      );
-    });
+    startTransition(async () => {});
   };
 
   return (
@@ -65,6 +42,13 @@ const LoginForm = () => {
       {error && <Alert status="error" title={error} />}
       <Fieldset.Root size="lg" maxW="md">
         <Fieldset.Content>
+          <TextInput
+            name="name"
+            title="Name"
+            control={control}
+            type="text"
+            required
+          />
           <TextInput
             name="email"
             title="Email address"
@@ -88,4 +72,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default RegisterForm;
