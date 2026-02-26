@@ -1,4 +1,4 @@
-import RegisterForm from "@/app/(public)/login/_components/LoginForm";
+import RegisterForm from "@/app/(public)/register/_components/RegisterForm";
 import { ReactElement } from "react";
 
 const RegisterPage = (): ReactElement => {

@@ -1,21 +1,24 @@
-import Link from "@/components/ui/link";
-import { Tabs } from "@chakra-ui/react";
+"use client";
 
-const Navigation = () => (
-  <Tabs.Root variant="enclosed" fitted>
-    <Tabs.List>
-      <Tabs.Trigger value="login">
-        <Link unstyled href="/login">
-          Login
-        </Link>
-      </Tabs.Trigger>
-      <Tabs.Trigger value="register">
-        <Link unstyled href="/register">
-          Register
-        </Link>
-      </Tabs.Trigger>
-    </Tabs.List>
-  </Tabs.Root>
-);
+import { Tabs } from "@chakra-ui/react";
+import NextLink from "next/link";
+import { usePathname } from "next/navigation";
+
+const Navigation = () => {
+  const path = usePathname();
+
+  return (
+    <Tabs.Root variant="enclosed" value={path} fitted>
+      <Tabs.List>
+        <Tabs.Trigger value="/login" asChild>
+          <NextLink href="/login">Login</NextLink>
+        </Tabs.Trigger>
+        <Tabs.Trigger value="/register" asChild>
+          <NextLink href="/register">Register</NextLink>
+        </Tabs.Trigger>
+      </Tabs.List>
+    </Tabs.Root>
+  );
+};
 
 export default Navigation;
