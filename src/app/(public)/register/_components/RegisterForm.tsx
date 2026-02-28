@@ -20,16 +20,7 @@ const registerSchema = z
       .string()
       .min(1, "Email is required.")
       .email("Please enter a valid email address."),
-    password: z
-      .string()
-      .min(8, "Password must be at least 8 characters long.")
-      .regex(/[A-Z]/, "Password must contain at least one uppercase letter.")
-      .regex(/[a-z]/, "Password must contain at least one lowercase letter.")
-      .regex(/[0-9]/, "Password must contain at least one number.")
-      .regex(
-        /[^A-Za-z0-9]/,
-        "Password must contain at least one special character.",
-      ),
+    password: z.string().min(8, "Password must be at least 8 characters long."),
     passwordConfirmation: z
       .string()
       .min(1, "Password confirmation is required."),
@@ -69,7 +60,7 @@ const RegisterForm = () => {
           onSuccess() {
             toaster.create({
               description: "Successfully created account",
-              type: "info",
+              type: "success",
             });
           },
           onError(context) {
@@ -85,37 +76,46 @@ const RegisterForm = () => {
   };
 
   return (
-    <Stack as="form" onSubmit={handleSubmit(onSubmit)} gap="1.5rem">
-      {error && <Alert status="error" title={error} />}
-      <Fieldset.Root size="lg" maxW="md">
-        <Fieldset.Content>
-          <TextInput
-            name="name"
-            title="Name"
-            control={control}
-            type="text"
-            required
-          />
-          <TextInput
-            name="email"
-            title="Email address"
-            control={control}
-            type="email"
-            required
-          />
-          <TextInput
-            name="password"
-            title="Password"
-            control={control}
-            type="password"
-            required
-          />
-        </Fieldset.Content>
-      </Fieldset.Root>
-      <Button type="submit" variant="solid" loading={loading}>
-        Log in
-      </Button>
-    </Stack>
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <Stack gap="1.5rem">
+        {error && <Alert status="error" title={error} />}
+        <Fieldset.Root size="lg" maxW="md">
+          <Fieldset.Content>
+            <TextInput
+              name="name"
+              title="Name"
+              control={control}
+              type="text"
+              required
+            />
+            <TextInput
+              name="email"
+              title="Email address"
+              control={control}
+              type="email"
+              required
+            />
+            <TextInput
+              name="password"
+              title="Password"
+              control={control}
+              type="password"
+              required
+            />
+            <TextInput
+              name="passwordConfirmation"
+              title="Password"
+              control={control}
+              type="password"
+              required
+            />
+          </Fieldset.Content>
+        </Fieldset.Root>
+        <Button type="submit" variant="solid" loading={loading}>
+          Create account
+        </Button>
+      </Stack>
+    </form>
   );
 };
 
