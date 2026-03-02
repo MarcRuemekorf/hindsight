@@ -9,7 +9,7 @@ interface PublicLayoutProps {
 export default function PublicLayout({ children }: PublicLayoutProps) {
   return (
     <Center minHeight="100vh">
-      <Card.Root maxWidth="xs" width="100%">
+      <Card.Root maxWidth="md" width="100%">
         <Card.Header>
           <Navigation />
         </Card.Header>
