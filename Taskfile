@@ -186,6 +186,25 @@ function task:typescript { ## Check for typescript typing issues
 }
 
 # =========================================================
+# Database
+# =========================================================
+
+function task:db:generate { ## Generate migrations for the database
+	title "Generating migrations files"
+	frontend-exec npm run db:generate
+}
+
+function task:db:migrate { ## Update the database
+	title "Running migrations"
+	frontend-exec npm run db:migrate
+}
+
+function task:db:update { ## Update the database
+	title "Updating database"
+	frontend-exec npm run db:update
+}
+
+# =========================================================
 # Utilities
 # =========================================================
 
