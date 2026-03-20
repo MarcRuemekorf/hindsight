@@ -1,6 +1,7 @@
 import Navigation from "@/app/(public)/_components/Navigation";
 import { Card, Center } from "@chakra-ui/react";
 import { ReactNode } from "react";
+import LogoutButton from "@/app/(public)/_components/LogoutButton";
 
 interface PublicLayoutProps {
   children: ReactNode;
@@ -14,6 +15,9 @@ export default function PublicLayout({ children }: PublicLayoutProps) {
           <Navigation />
         </Card.Header>
         <Card.Body>{children}</Card.Body>
+        <Card.Footer>
+          <LogoutButton />
+        </Card.Footer>
       </Card.Root>
     </Center>
   );
