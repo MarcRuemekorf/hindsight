@@ -1,14 +1,15 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Fieldset, Stack, VStack } from "@chakra-ui/react";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { useState, useTransition } from "react";
-import { toaster } from "@/components/ui/toaster";
+import { toaster } from "@/components/ui/feedback/toaster";
 import { logIn } from "@/utils/auth-client";
 import TextInput from "@/components/form/TextInput";
-import { Alert } from "@/components/ui/alert";
+import { Alert } from "@/components/ui/feedback/alert";
 
 const logInSchema = z.object({
   email: z.email("Please enter a valid email address."),
@@ -19,6 +20,7 @@ const logInSchema = z.object({
 type LogInFormValues = z.infer<typeof logInSchema>;
 
 const LoginForm = () => {
+  const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const [loading, startTransition] = useTransition();
 
@@ -47,6 +49,8 @@ const LoginForm = () => {
               description: "Successfully logged in",
               type: "info",
             });
+
+            router.push("/");
           },
           onError(context) {
             setError(context.error.message);
