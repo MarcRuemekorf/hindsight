@@ -1,12 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import { headers } from "next/headers";
 import { auth } from "@/utils/auth";
 
 export async function proxy(request: NextRequest) {
     const { pathname } = request.nextUrl;
 
     const isAuthenticated = await auth.api.getSession({
-        headers: await headers()
+        headers: request.headers
     })
 
     const isAuthPage = pathname.startsWith("/login") || pathname.startsWith("/register");
