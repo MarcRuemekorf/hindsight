@@ -1,26 +1,25 @@
 import { NextRequest, NextResponse } from "next/server";
+import { headers } from "next/headers";
 import { auth } from "@/utils/auth";
 
 export async function proxy(request: NextRequest) {
-    const { pathname } = request.nextUrl;
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
 
-    const isAuthenticated = await auth.api.getSession({
-        headers: request.headers
-    })
+  const isAuthPage =
+    request.nextUrl.pathname.startsWith("/login") ||
+    request.nextUrl.pathname.startsWith("/register");
 
-    const isAuthPage = pathname.startsWith("/login") || pathname.startsWith("/register");
+  if (!session && !isAuthPage) {
+    return NextResponse.redirect(new URL("/login", request.url));
+  }
 
-    if (!isAuthenticated && !isAuthPage) {
-        const loginUrl = new URL("/login", request.url);
-        loginUrl.searchParams.set("callbackUrl", pathname);
-        return NextResponse.redirect(loginUrl);
-    }
+  if (session && isAuthPage) {
+    return NextResponse.redirect(new URL("/", request.url));
+  }
 
-    if (isAuthenticated && isAuthPage) {
-        return NextResponse.redirect(new URL("/dashboard", request.url));
-    }
-
-    return NextResponse.next();
+  return NextResponse.next();
 }
 
 export const config = {
