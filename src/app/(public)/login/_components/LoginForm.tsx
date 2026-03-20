@@ -41,7 +41,6 @@ const LoginForm = () => {
         {
           email: data.email,
           password: data.password,
-          callbackURL: "/dashboard",
           rememberMe: data.rememberMe,
         },
         {
