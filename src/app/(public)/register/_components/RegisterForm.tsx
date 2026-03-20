@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, Fieldset, Stack } from "@chakra-ui/react";
+import { Button, Fieldset, HStack, Stack } from "@chakra-ui/react";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { useState, useTransition } from "react";
@@ -12,7 +12,11 @@ import { toaster } from "@/components/ui/toaster";
 
 const registerSchema = z
   .object({
-    name: z
+    firstName: z
+      .string()
+      .min(2, "Name must be at least 2 characters long.")
+      .max(100, "Name must be less than 100 characters."),
+    lastName: z
       .string()
       .min(2, "Name must be at least 2 characters long.")
       .max(100, "Name must be less than 100 characters."),
@@ -39,7 +43,8 @@ const RegisterForm = () => {
   const { control, handleSubmit } = useForm<RegisterFormValues>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
-      name: "",
+      firstName: "",
+      lastName: "",
       email: "",
       password: "",
       passwordConfirmation: "",
@@ -52,7 +57,7 @@ const RegisterForm = () => {
     startTransition(async () => {
       await register.email(
         {
-          name: data.name,
+          name: `${data.firstName} ${data.lastName}`,
           email: data.email,
           password: data.password,
         },
@@ -81,13 +86,22 @@ const RegisterForm = () => {
         {error && <Alert status="error" title={error} />}
         <Fieldset.Root size="lg" maxW="md">
           <Fieldset.Content>
-            <TextInput
-              name="name"
-              title="Name"
-              control={control}
-              type="text"
-              required
-            />
+            <HStack>
+              <TextInput
+                name="firstName"
+                title="First name"
+                control={control}
+                type="text"
+                required
+              />
+              <TextInput
+                name="lastName"
+                title="Last name"
+                control={control}
+                type="text"
+                required
+              />
+            </HStack>
             <TextInput
               name="email"
               title="Email address"
