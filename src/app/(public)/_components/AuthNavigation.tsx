@@ -4,7 +4,7 @@ import { Tabs } from "@chakra-ui/react";
 import NextLink from "next/link";
 import { usePathname } from "next/navigation";
 
-const Navigation = () => {
+const AuthNavigation = () => {
   const path = usePathname();
 
   return (
@@ -21,4 +21,4 @@ const Navigation = () => {
   );
 };
 
-export default Navigation;
+export default AuthNavigation;
