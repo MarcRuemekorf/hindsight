@@ -7,8 +7,8 @@ import { useForm } from "react-hook-form";
 import { useState, useTransition } from "react";
 import { register } from "@/utils/auth-client";
 import TextInput from "@/components/form/TextInput";
-import { Alert } from "@/components/ui/alert";
-import { toaster } from "@/components/ui/toaster";
+import { Alert } from "@/components/ui/feedback/alert";
+import { toaster } from "@/components/ui/feedback/toaster";
 
 const registerSchema = z
   .object({
