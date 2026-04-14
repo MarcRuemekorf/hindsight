@@ -15,9 +15,6 @@ export default function PublicLayout({ children }: PublicLayoutProps) {
           <AuthNavigation />
         </Card.Header>
         <Card.Body>{children}</Card.Body>
-        <Card.Footer>
-          <LogoutButton />
-        </Card.Footer>
       </Card.Root>
     </Center>
   );

@@ -34,6 +34,16 @@ const BoardsOverview = () => {
           <BoardItem title="Avics retro" columnsAmount={4} postItsAmount={33} />
         </Stack>
       </Stack>
+      {/* <Stack gap="1.5rem">
+        {groups.map((group) => (
+          <Stack key={group.label}>
+            <Text fontSize="xs" color="fg.muted">{group.label}</Text>
+            {group.boards.map((board) => (
+              <BoardItem key={board.id} {...board} />
+            ))}
+          </Stack>
+        ))}
+      </Stack> */}
     </Stack>
   );
 };

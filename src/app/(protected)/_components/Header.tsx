@@ -1,3 +1,4 @@
+import CreateBoardDialog from "@/app/(protected)/_components/CreateBoardDialog";
 import MainNavigation from "@/app/(protected)/_components/MainNavigation";
 import LogoutButton from "@/app/(public)/_components/LogoutButton";
 import Link from "@/components/ui/typography/link";
@@ -10,7 +11,10 @@ const Header = () => {
         <Link href="/">Hindsight</Link>
         <MainNavigation />
       </HStack>
-      <LogoutButton />
+      <HStack gap="1rem">
+        <CreateBoardDialog />
+        <LogoutButton />
+      </HStack>
     </HStack>
   );
 };

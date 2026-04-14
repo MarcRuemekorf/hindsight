@@ -8,6 +8,13 @@
       "when": 1771680665175,
       "tag": "0000_equal_wendigo",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1775919467888,
+      "tag": "0001_absurd_zaladane",
+      "breakpoints": true
     }
   ]
 }
