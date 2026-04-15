@@ -22,18 +22,18 @@ export const createBoard = async (data: CreateBoardSchema) => {
 
   const boardId = randomUUID();
 
-  await db.transaction(async (tx) => {
-    await tx.insert(board).values({
+  await db.batch([
+    db.insert(board).values({
       id: boardId,
       title: parseResult.data.title,
       createdByUserId: session.user.id,
-    });
-    await tx.insert(boardMember).values({
+    }),
+    db.insert(boardMember).values({
       boardId,
       userId: session.user.id,
       role: "owner",
-    });
-  });
+    }),
+  ]);
 
   return boardId;
 };
