@@ -6,10 +6,10 @@ import { Button, Fieldset, Stack } from "@chakra-ui/react";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { useState, useTransition } from "react";
-import { toaster } from "@/components/ui/feedback/toaster";
+import { toaster } from "@/components/feedback/toaster";
 import { logIn } from "@/utils/auth-client";
 import TextInput from "@/components/form/TextInput";
-import { Alert } from "@/components/ui/feedback/alert";
+import { Alert } from "@/components/feedback/alert";
 
 const logInSchema = z.object({
   email: z.email("Please enter a valid email address."),

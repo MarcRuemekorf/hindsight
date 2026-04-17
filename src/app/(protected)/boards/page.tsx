@@ -1,21 +1,17 @@
 import BoardList from "@/app/(protected)/_components/BoardList";
-import Link from "@/components/typography/link";
 import { Heading, HStack, Stack } from "@chakra-ui/react";
 
-const DashboardPage = () => {
+const BoardsPage = () => {
 	return (
 		<Stack gap="2rem">
 			<HStack>
 				<Heading as="h2" size="xl">
-					Latest boards
+					Boards overview
 				</Heading>
-				<Link href="/boards" fontSize="sm" ml="auto">
-					View all
-				</Link>
 			</HStack>
-			<BoardList page={1} pageSize={5} />
+			<BoardList />
 		</Stack>
 	);
 };
 
-export default DashboardPage;
+export default BoardsPage;

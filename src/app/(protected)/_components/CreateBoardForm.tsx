@@ -5,15 +5,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Fieldset, Stack } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { useState, useTransition } from "react";
-import { toaster } from "@/components/ui/feedback/toaster";
+import { toaster } from "@/components/feedback/toaster";
 import TextInput from "@/components/form/TextInput";
-import { Alert } from "@/components/ui/feedback/alert";
+import { Alert } from "@/components/feedback/alert";
 import { createBoard } from "@/app/(protected)/_actions/createBoard";
 import {
   type CreateBoardSchema,
   createBoardSchema,
 } from "@/app/(protected)/_actions/createBoard.schema";
-import { Button } from "@/components/ui/buttons/button";
+import { Button } from "@/components/buttons/button";
 
 const CreateBoardForm = () => {
   const router = useRouter();

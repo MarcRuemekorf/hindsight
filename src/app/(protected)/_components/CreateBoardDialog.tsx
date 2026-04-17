@@ -1,5 +1,5 @@
 import CreateBoardForm from "@/app/(protected)/_components/CreateBoardForm";
-import { Button } from "@/components/ui/buttons/button";
+import { Button } from "@/components/buttons/button";
 import { Dialog, Portal } from "@chakra-ui/react";
 import { LuPlus } from "react-icons/lu";
 
@@ -7,8 +7,8 @@ const CreateBoardDialog = () => {
   return (
     <Dialog.Root>
       <Dialog.Trigger asChild>
-        <Button size="xs">
-          <LuPlus /> Create Board
+        <Button size="sm">
+          <LuPlus /> Create
         </Button>
       </Dialog.Trigger>
       <Portal>

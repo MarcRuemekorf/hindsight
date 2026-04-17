@@ -1,5 +1,5 @@
-import Link from "@/components/ui/typography/link";
-import { Button } from "@/components/ui/buttons/button";
+import Link from "@/components/typography/link";
+import { Button } from "@/components/buttons/button";
 import { Box } from "@chakra-ui/react";
 
 type NavigationLink = {
