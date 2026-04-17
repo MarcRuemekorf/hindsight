@@ -5,9 +5,16 @@ import { redirect } from "next/navigation";
 import { auth } from "@/utils/auth";
 import { db } from "@/db";
 import { board, boardColumn, postIt, boardMember, user } from "@/db/schema";
-import { eq, desc, count, sql } from "drizzle-orm";
+import { eq, desc, count, sql, and, gte, lte, type SQL } from "drizzle-orm";
 
-export const getBoards = async (page: number = 1, pageSize: number = 15) => {
+type GetBoardsOptions = {
+	page?: number;
+	pageSize?: number;
+	from?: Date;
+	to?: Date;
+};
+
+export const getBoards = async ({ page = 1, pageSize = 15, from, to }: GetBoardsOptions = {}) => {
     const session = await auth.api.getSession({ headers: await headers() });
     if (!session) redirect("/login");
 
@@ -48,7 +55,11 @@ export const getBoards = async (page: number = 1, pageSize: number = 15) => {
         .leftJoin(columnCountSq, eq(board.id, columnCountSq.boardId))
         .leftJoin(postItCountSq, eq(board.id, postItCountSq.boardId))
         .leftJoin(membersSq, eq(board.id, membersSq.boardId))
-        .where(eq(board.createdByUserId, session.user.id))
+        .where(and(
+            eq(board.createdByUserId, session.user.id),
+            from ? gte(board.createdAt, from) : undefined,
+            to ? lte(board.createdAt, to) : undefined,
+        ) as SQL)
         .orderBy(desc(board.createdAt))
         .limit(pageSize)
         .offset((page - 1) * pageSize);
