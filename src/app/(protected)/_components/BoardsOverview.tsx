@@ -17,7 +17,7 @@ const BoardsOverview = async () => {
     <Stack gap="2rem">
       <HStack>
         <Heading as="h2" size="xl">
-          My recent boards
+          Latest boards
         </Heading>
         <Link href="#" fontSize="sm" ml="auto">
           View all
