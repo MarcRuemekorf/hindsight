@@ -1,8 +1,18 @@
 import BoardItem from "@/app/(protected)/_components/BoardItem";
 import Link from "@/components/ui/typography/link";
+import { groupBoardsByDate } from "@/utils/groupBoardsByDate";
 import { Heading, HStack, Stack, Text } from "@chakra-ui/react";
+import { getRecentBoards } from "../_actions/getRecentBoards";
 
-const BoardsOverview = () => {
+const BoardsOverview = async () => {
+  const recentBoards = await getRecentBoards();
+
+  if (recentBoards.length === 0) {
+    return null;
+  }
+
+  const groups = groupBoardsByDate(recentBoards);
+
   return (
     <Stack gap="2rem">
       <HStack>
@@ -14,36 +24,17 @@ const BoardsOverview = () => {
         </Link>
       </HStack>
       <Stack gap="1.5rem">
-        <Stack>
-          <Text fontSize="xs" color="fg.muted">
-            Laatst gewijzigd - 2 dagen geleden
-          </Text>
-          <BoardItem title="Team retro" columnsAmount={3} postItsAmount={43} />
-          <BoardItem title="Avics retro" columnsAmount={4} postItsAmount={23} />
-          <BoardItem
-            title="ZilliZ retro"
-            columnsAmount={4}
-            postItsAmount={56}
-          />
-        </Stack>
-        <Stack>
-          <Text fontSize="xs" color="fg.muted">
-            Laatst gewijzigd - 2 weken geleden
-          </Text>
-          <BoardItem title="Team retro" columnsAmount={3} postItsAmount={46} />
-          <BoardItem title="Avics retro" columnsAmount={4} postItsAmount={33} />
-        </Stack>
-      </Stack>
-      {/* <Stack gap="1.5rem">
         {groups.map((group) => (
           <Stack key={group.label}>
-            <Text fontSize="xs" color="fg.muted">{group.label}</Text>
+            <Text fontSize="xs" color="fg.muted">
+              {group.label}
+            </Text>
             {group.boards.map((board) => (
               <BoardItem key={board.id} {...board} />
             ))}
           </Stack>
         ))}
-      </Stack> */}
+      </Stack>
     </Stack>
   );
 };

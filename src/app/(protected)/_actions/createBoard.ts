@@ -14,7 +14,6 @@ import z from "zod";
 
 export const createBoard = async (data: CreateBoardSchema) => {
   const session = await auth.api.getSession({ headers: await headers() });
-  console.log("Session:", session);
   if (!session) redirect("/login");
 
   const parseResult = createBoardSchema.safeParse(data);
