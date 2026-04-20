@@ -42,7 +42,7 @@ export const getBoards = async ({ page = 1, pageSize = 15, from, to }: GetBoards
         .groupBy(boardMember.boardId)
         .as("members_sq");
 
-    return db
+    const boards = await db
         .select({
             id: board.id,
             title: board.title,
@@ -50,6 +50,7 @@ export const getBoards = async ({ page = 1, pageSize = 15, from, to }: GetBoards
             columnCount: sql<number>`coalesce(${columnCountSq.columnCount}, 0)`,
             postItCount: sql<number>`coalesce(${postItCountSq.postItCount}, 0)`,
             members: membersSq.members,
+            totalCount: sql<number>`coalesce(${sql<number>`count(*) over()`}, 0)`,
         })
         .from(board)
         .leftJoin(columnCountSq, eq(board.id, columnCountSq.boardId))
@@ -63,4 +64,6 @@ export const getBoards = async ({ page = 1, pageSize = 15, from, to }: GetBoards
         .orderBy(desc(board.createdAt))
         .limit(pageSize)
         .offset((page - 1) * pageSize);
+
+    return { boards, totalCount: boards.length > 0 ? boards[0].totalCount : 0 };
 };

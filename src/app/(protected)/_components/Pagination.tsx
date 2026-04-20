@@ -3,9 +3,9 @@
 import { ButtonGroup, Pagination as ChakraPagination, IconButton } from "@chakra-ui/react";
 import { LuChevronLeft, LuChevronRight } from "react-icons/lu";
 
-const Pagination = ({ page = 1, pageSize }: { page?: number; pageSize?: number }) => {
+const Pagination = ({ page = 1, pageSize, count }: { page?: number; pageSize?: number; count: number }) => {
 	return (
-		<ChakraPagination.Root pageSize={pageSize} defaultPage={page}>
+		<ChakraPagination.Root pageSize={pageSize} defaultPage={page} count={count}>
 			<ButtonGroup variant="ghost" size="sm">
 				<ChakraPagination.PrevTrigger asChild>
 					<IconButton aria-label="Previous page">
