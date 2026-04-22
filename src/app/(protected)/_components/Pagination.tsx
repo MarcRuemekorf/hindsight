@@ -1,11 +1,25 @@
 "use client"
 
 import { ButtonGroup, Pagination as ChakraPagination, IconButton } from "@chakra-ui/react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { LuChevronLeft, LuChevronRight } from "react-icons/lu";
 
-const Pagination = ({ page = 1, pageSize, count }: { page?: number; pageSize?: number; count: number }) => {
+const Pagination = ({ page = 1, pageSize = 15, count }: { page?: number; pageSize?: number; count: number }) => {
+	const router = useRouter();
+	const searchParams = useSearchParams();
+
+	if(pageSize >= count) {
+		return null;
+	}
+
+	const handlePageChange = ({ page: newPage }: { page: number }) => {
+		const params = new URLSearchParams(searchParams.toString());
+		params.set("page", String(newPage));
+		router.push(`?${params.toString()}`);
+	};
+
 	return (
-		<ChakraPagination.Root pageSize={pageSize} defaultPage={page} count={count}>
+		<ChakraPagination.Root pageSize={pageSize} page={page} count={count} onPageChange={handlePageChange}>
 			<ButtonGroup variant="ghost" size="sm">
 				<ChakraPagination.PrevTrigger asChild>
 					<IconButton aria-label="Previous page">

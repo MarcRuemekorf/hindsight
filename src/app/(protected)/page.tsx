@@ -2,7 +2,12 @@ import BoardList from "@/app/(protected)/_components/BoardList";
 import Link from "@/components/typography/link";
 import { Heading, HStack, Stack } from "@chakra-ui/react";
 
-const DashboardPage = () => {
+type Props = { searchParams: Promise<{ page?: string }> }
+
+const DashboardPage = async ({ searchParams }: Props) => {
+	const { page } = await searchParams;
+	const currentPage = Math.max(1, Number(page) || 1);
+
 	return (
 		<Stack gap="2rem">
 			<HStack>
@@ -13,7 +18,7 @@ const DashboardPage = () => {
 					View all
 				</Link>
 			</HStack>
-			<BoardList page={1} pageSize={5} />
+			<BoardList page={currentPage} pageSize={5} />
 		</Stack>
 	);
 };

@@ -4,7 +4,6 @@ import * as React from "react";
 
 interface ButtonLoadingProps {
   disabled?: boolean;
-  children: React.ReactNode;
 }
 
 export interface ButtonProps extends ChakraButtonProps, ButtonLoadingProps {}
