@@ -5,6 +5,7 @@ import * as React from "react";
 
 export interface LinkProps extends ChakraLinkProps {
   href: string;
+  children: React.ReactNode;
 }
 
 export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(

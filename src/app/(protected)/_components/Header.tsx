@@ -1,6 +1,7 @@
+import CreateBoardDialog from "@/app/(protected)/_components/CreateBoardDialog";
 import MainNavigation from "@/app/(protected)/_components/MainNavigation";
 import LogoutButton from "@/app/(public)/_components/LogoutButton";
-import Link from "@/components/ui/typography/link";
+import Link from "@/components/typography/link";
 import { HStack } from "@chakra-ui/react";
 
 const Header = () => {
@@ -10,7 +11,10 @@ const Header = () => {
         <Link href="/">Hindsight</Link>
         <MainNavigation />
       </HStack>
-      <LogoutButton />
+      <HStack>
+        <CreateBoardDialog />
+        <LogoutButton />
+      </HStack>
     </HStack>
   );
 };
