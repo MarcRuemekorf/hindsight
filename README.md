@@ -1,6 +1,6 @@
 # Hindsight
 
-A board management application built with a modern full-stack TypeScript setup. Hindsight lets users create and browse boards, grouped by date, behind a secure authentication layer.
+Hindsight lets users create fully customizable retrospective boards and invite members to share their thoughts through post-its — keeping the conversation structured and the feedback flowing.
 
 ## Stack
 
