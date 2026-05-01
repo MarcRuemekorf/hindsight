@@ -6,8 +6,6 @@ import BoardColumns from "./_components/BoardColumns";
 const BoardDetailsPage = async ({ params }: { params: { id: string } }) => {
 	const { id } = await params;
 	const board = await getBoard(id);
-
-	console.log(board)
 	
 	if ('error' in board) {
 		return <div>Error: {board.error}</div>;

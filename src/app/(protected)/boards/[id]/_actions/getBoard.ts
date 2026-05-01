@@ -9,8 +9,6 @@ import { and, eq, isNull, sql } from "drizzle-orm";
 import { z } from "zod";
 
 export const getBoard = async (boardId: string) => {
-	console.log("boardId received:", boardId);
-
     const session = await auth.api.getSession({ headers: await headers() });
     if (!session) redirect("/login");
 
