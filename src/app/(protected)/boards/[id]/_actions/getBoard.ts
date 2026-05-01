@@ -129,3 +129,4 @@ export const getBoard = async (boardId: string) => {
 };
 
 export type GetBoardResult = Awaited<ReturnType<typeof getBoard>>;
+export type BoardColumn = Extract<GetBoardResult, { columns: unknown[] }>["columns"][number];

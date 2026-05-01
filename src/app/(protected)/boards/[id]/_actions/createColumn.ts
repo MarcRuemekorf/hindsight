@@ -8,6 +8,7 @@ import { boardColumn, boardMember } from "@/db/schema";
 import { and, eq, max } from "drizzle-orm";
 import { randomBytes } from "crypto";
 import { z } from "zod";
+import { revalidatePath } from "next/cache";
 
 const createColumnSchema = z.object({
     boardId: z.string().regex(/^[0-9a-f]{6}$/),
@@ -45,6 +46,8 @@ export const createColumn = async (input: z.infer<typeof createColumnSchema>) =>
         title,
         position: (maxPosition ?? -1) + 1,
     });
+
+    revalidatePath(`/boards/${boardId}`);
 
     return columnId;
 };

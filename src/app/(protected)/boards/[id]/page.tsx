@@ -14,9 +14,9 @@ const BoardDetailsPage = async ({ params }: { params: { id: string } }) => {
 	}
 	
 	return (
-		<Stack gap="1rem">
+		<Stack gap="1rem" height="full">
 			<BoardHeader title={board.title} members={board.members} />
-			<BoardColumns boardId={id} />
+			<BoardColumns boardId={id} columns={board.columns} />
 		</Stack>
 	);
 };
