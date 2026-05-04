@@ -9,7 +9,7 @@ const Header = () => {
 		<Container maxWidth="full" bg="bg.subtle" py="1rem">
 			<HStack width="100%" justifyContent="space-between">
 				<HStack gap="2rem">
-					<Link href="/">Hindsight</Link>
+					<Link href="/" fontWeight="semibold">Hindsight</Link>
 					<MainNavigation />
 				</HStack>
 				<HStack>
