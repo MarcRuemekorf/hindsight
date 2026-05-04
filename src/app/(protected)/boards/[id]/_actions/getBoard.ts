@@ -128,3 +128,5 @@ export const getBoard = async (boardId: string) => {
 
 export type GetBoardResult = Awaited<ReturnType<typeof getBoard>>;
 export type BoardColumn = Extract<GetBoardResult, { columns: unknown[] }>["columns"][number];
+export type BoardMember = Extract<GetBoardResult, { members: unknown[] }>["members"][number];
+export type PostIt = BoardColumn extends { postIts: unknown[] } ? BoardColumn["postIts"][number] : never;

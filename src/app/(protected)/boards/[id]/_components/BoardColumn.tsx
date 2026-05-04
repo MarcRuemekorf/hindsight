@@ -8,6 +8,7 @@ import { toaster } from "@/components/feedback/toaster";
 import { deleteColumn } from "../_actions/deleteColumn";
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
+import ConfirmationDialog from "./ConfirmationDialog";
 
 type BoardColumnProps = {
 	boardId: string;
@@ -21,24 +22,32 @@ const BoardColumn = ({ boardId, column, isOwner }: BoardColumnProps) => {
     const [deleting, startTransition] = useTransition();
 
     const handleDelete = () => {
-        // Skip confirmation when column is empty
         if (column.postIts.length > 0) {
             setConfirmOpen(true);
             return;
         }
         
+		performDelete();		
+    };
+
+	const performDelete = () => {
 		startTransition(async () => {
             const result = await deleteColumn({ columnId: column.id, boardId });
             if (result === "ok") {
+				toaster.create({
+					description: "Successfully deleted column",
+					type: "info",
+				});
                 router.refresh();
             } else {
                 toaster.create({ description: "Failed to delete column.", type: "error" });
             }
             setConfirmOpen(false);
         });
-    };
+	}
 
 	return (
+		<>
 		<Box borderRadius="md" backgroundColor="bg.subtle" padding="1rem" width="360px">
 			<Stack gap="1rem">
 				<HStack justifyContent="space-between">
@@ -71,6 +80,15 @@ const BoardColumn = ({ boardId, column, isOwner }: BoardColumnProps) => {
 				</Button>
 			</Stack>
 		</Box>
+
+		<ConfirmationDialog
+            column={column}
+            open={confirmOpen}
+            setOpen={setConfirmOpen}
+            deleting={deleting}
+            performDelete={performDelete}
+        />
+		</>
 	);
 };
 

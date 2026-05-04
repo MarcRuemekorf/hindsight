@@ -36,7 +36,7 @@ const BoardColumns = ({ boardId, columns, isOwner }: BoardColumnsProps) => {
 							{columns.map((column) => (
 								<BoardColumn key={column.id} boardId={boardId} column={column} isOwner={isOwner} />
 							))}
-							<CreateColumnForm boardId={boardId} />
+							<CreateColumnForm boardId={boardId} defaultOpen={columns.length === 0} />
 						</HStack>
 					</Container>
 				</ScrollArea.Content>
