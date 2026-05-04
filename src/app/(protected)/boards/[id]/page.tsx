@@ -6,15 +6,19 @@ import BoardColumns from "./_components/BoardColumns";
 const BoardDetailsPage = async ({ params }: { params: { id: string } }) => {
 	const { id } = await params;
 	const board = await getBoard(id);
-	
-	if ('error' in board) {
+
+	if ("error" in board) {
 		return <div>Error: {board.error}</div>;
 	}
-	
+
 	return (
 		<Stack gap="1rem" height="full">
 			<BoardHeader title={board.title} members={board.members} />
-			<BoardColumns boardId={id} columns={board.columns} />
+			<BoardColumns
+				boardId={id}
+				columns={board.columns}
+				isOwner={board.currentUserRole === "owner"}
+			/>
 		</Stack>
 	);
 };

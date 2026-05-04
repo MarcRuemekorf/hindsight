@@ -3,7 +3,13 @@ import BoardColumn from "./BoardColumn";
 import CreateColumnForm from "./CreateBoardColumnForm";
 import { BoardColumn as BoardColumnType } from "../_actions/getBoard";
 
-const BoardColumns = ({ boardId, columns }: { boardId: string; columns: BoardColumnType[] }) => {
+type BoardColumnsProps = {
+    boardId: string;
+    columns: BoardColumnType[];
+    isOwner: boolean;
+};
+
+const BoardColumns = ({ boardId, columns, isOwner }: BoardColumnsProps) => {
 	return (
 		<ScrollArea.Root maxWidth="full" height="full">
 			<ScrollArea.Viewport
@@ -28,7 +34,7 @@ const BoardColumns = ({ boardId, columns }: { boardId: string; columns: BoardCol
 					<Container maxWidth="full" height="full">
 						<HStack gap="1rem" align="start" flexWrap="nowrap">
 							{columns.map((column) => (
-								<BoardColumn key={column.id} boardId={boardId} column={column} />
+								<BoardColumn key={column.id} boardId={boardId} column={column} isOwner={isOwner} />
 							))}
 							<CreateColumnForm boardId={boardId} />
 						</HStack>
