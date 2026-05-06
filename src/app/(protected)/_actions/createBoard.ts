@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import { auth } from "@/utils/auth";
 import { db } from "@/db";
 import { board, boardMember } from "@/db/schema";
-import { randomUUID } from "crypto";
+import { randomBytes } from "crypto";
 import {
 	createBoardSchema,
 	type CreateBoardSchema,
@@ -19,7 +19,7 @@ export const createBoard = async (data: CreateBoardSchema) => {
 	const parseResult = createBoardSchema.safeParse(data);
 	if (!parseResult.success) return { error: z.treeifyError(parseResult.error) };
 
-	const boardId = randomUUID();
+	const boardId = randomBytes(3).toString("hex");
 
 	await db.batch([
 		db.insert(board).values({
