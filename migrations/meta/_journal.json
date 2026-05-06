@@ -15,6 +15,20 @@
       "when": 1775919467888,
       "tag": "0001_absurd_zaladane",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1778074714947,
+      "tag": "0002_optimal_slyde",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1778074861238,
+      "tag": "0003_spotty_rogue",
+      "breakpoints": true
     }
   ]
 }

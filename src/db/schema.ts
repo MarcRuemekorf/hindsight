@@ -136,21 +136,18 @@ export const boardColumn = pgTable(
   (table) => [index("boardColumn_boardId_position_idx").on(table.boardId, table.position)],
 );
 
-export const postIt = pgTable(
-  "post_it",
-  {
+export const postIt = pgTable("post_it", {
     id: text("id").primaryKey(),
+    title: text("title").notNull(),
+    content: text("content"),
     boardId: text("board_id")
-      .notNull()
       .references(() => board.id, { onDelete: "cascade" }),
     columnId: text("column_id")
-      .notNull()
       .references(() => boardColumn.id, { onDelete: "cascade" }),
-    content: text("content").notNull(),
     createdByUserId: text("created_by_user_id")
       .notNull()
       .references(() => user.id, { onDelete: "cascade" }),
-    position: integer("position").notNull(),
+    position: integer("position"),
     archivedAt: timestamp("archived_at"),
     createdAt: timestamp("created_at").defaultNow().notNull(),
     updatedAt: timestamp("updated_at")
