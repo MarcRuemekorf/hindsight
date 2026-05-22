@@ -7,8 +7,8 @@ import {
 } from "@chakra-ui/react"
 import { useState } from "react"
 import { LuPlus } from "react-icons/lu"
-import CreateBoardDialog from "./CreateBoardDialog"
-import CreatePostItDialog from "./CreatePostItDialog"
+import CreateBoardDialog from "@/app/(protected)/boards/_components/CreateBoardDialog"
+import CreatePostItDialog from "@/app/(protected)/post-its/_components/CreatePostItDialog"
 
 
 const CreateButton = () => {

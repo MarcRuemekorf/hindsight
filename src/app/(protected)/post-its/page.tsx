@@ -1,21 +1,24 @@
-import BoardList from "@/app/(protected)/_components/BoardList";
 import { Container, Heading, HStack, Stack } from "@chakra-ui/react";
-import CreateBoardButton from "./_components/CreateBoardButton";
+import PostItList from "../_components/PostItList";
+import CreatePostItButton from "./_components/CreatePostItButton";
 
-const BoardsPage = () => {
+const PostItsPage = () => {
+
 	return (
+		<>
 		<Container maxWidth="6xl">
 			<Stack gap="2rem">
 				<HStack justifyContent="space-between">
 					<Heading as="h2" size="xl">
-						Boards overview
+						Post-its overview
 					</Heading>
-					<CreateBoardButton />
+					<CreatePostItButton />
 				</HStack>
-				<BoardList />
+				<PostItList />
 			</Stack>
 		</Container>
+		</>
 	);
 };
 
-export default BoardsPage;
+export default PostItsPage;

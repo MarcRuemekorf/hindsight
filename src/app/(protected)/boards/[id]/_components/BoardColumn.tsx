@@ -8,7 +8,7 @@ import { toaster } from "@/components/feedback/toaster";
 import { deleteColumn } from "../_actions/deleteColumn";
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import ConfirmationDialog from "./ConfirmationDialog";
+import DeleteColumnDialog from "./DeleteColumnDialog";
 
 type BoardColumnProps = {
 	boardId: string;
@@ -81,12 +81,12 @@ const BoardColumn = ({ boardId, column, isOwner }: BoardColumnProps) => {
 			</Stack>
 		</Box>
 
-		<ConfirmationDialog
+		<DeleteColumnDialog
             column={column}
             open={confirmOpen}
             setOpen={setConfirmOpen}
             deleting={deleting}
-            performDelete={performDelete}
+            onConfirm={performDelete}
         />
 		</>
 	);

@@ -1,17 +1,17 @@
-import BoardItem from "@/app/(protected)/_components/BoardItem";
-import { groupBoardsByDate } from "@/utils/groupBoardsByDate";
+import BoardCard from "@/app/(protected)/_components/BoardCard";
+import { groupItemsByDate } from "@/utils/groupItemsByDate";
 import { Stack, Text } from "@chakra-ui/react";
 import { getBoards } from "../_actions/getBoards";
 import Pagination from "./Pagination";
 
-const BoardList = async ({ page, pageSize }: { page?: number; pageSize?: number }) => {
+const BoardList = async ({ page, pageSize, paramName }: { page?: number; pageSize?: number; paramName?: string }) => {
 	const { boards, totalCount } = await getBoards({ page, pageSize });
 
 	if (boards.length === 0) {
 		return null;
 	}
 
-	const boardGroupsByDate = groupBoardsByDate(boards);
+	const boardGroupsByDate = groupItemsByDate(boards);
 
 	return (
 		<Stack gap="2rem">
@@ -21,13 +21,13 @@ const BoardList = async ({ page, pageSize }: { page?: number; pageSize?: number 
 						<Text fontSize="xs" color="fg.muted">
 							{group.label}
 						</Text>
-						{group.boards.map((board) => (
-							<BoardItem key={board.id} {...board} />
+						{group.items.map((board) => (
+							<BoardCard key={board.id} {...board} />
 						))}
 					</Stack>
 				))}
 			</Stack>
-			<Pagination page={page} pageSize={pageSize} count={totalCount} />
+			<Pagination page={page} pageSize={pageSize} count={totalCount} paramName={paramName} />
 		</Stack>
 	);
 };

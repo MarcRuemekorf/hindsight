@@ -2,17 +2,17 @@ import { Button } from "@/components/buttons/button";
 import { Dialog, Portal, Text } from "@chakra-ui/react";
 import { PostIt } from "../_actions/getBoard";
 
-type ConfirmationDialogProps = {
+type DeleteColumnDialogProps = {
 	column: {
 		postIts: PostIt[];
 	};
 	open: boolean;
 	setOpen: (open: boolean) => void;
 	deleting: boolean;
-	performDelete: () => void;
+	onConfirm: () => void;
 };
 
-const ConfirmationDialog = ({column, open, setOpen, deleting, performDelete}: ConfirmationDialogProps) => {
+const DeleteColumnDialog = ({column, open, setOpen, deleting, onConfirm}: DeleteColumnDialogProps) => {
 	return (
 		<Dialog.Root
                 open={open}
@@ -42,7 +42,7 @@ const ConfirmationDialog = ({column, open, setOpen, deleting, performDelete}: Co
                                 <Button
                                     colorPalette="red"
                                     loading={deleting}
-                                    onClick={performDelete}
+                                    onClick={onConfirm}
                                 >
                                     Delete
                                 </Button>
@@ -54,4 +54,4 @@ const ConfirmationDialog = ({column, open, setOpen, deleting, performDelete}: Co
 	)
 }
 
-export default ConfirmationDialog;
+export default DeleteColumnDialog;

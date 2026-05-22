@@ -1,8 +1,8 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Fieldset, Stack } from "@chakra-ui/react";
-import { useForm } from "react-hook-form";
+import { Field, Fieldset, Stack, Textarea } from "@chakra-ui/react";
+import { useForm, useController } from "react-hook-form";
 import { useState, useTransition } from "react";
 import { toaster } from "@/components/feedback/toaster";
 import TextInput from "@/components/form/TextInput";
@@ -12,9 +12,13 @@ import {
   createPostItSchema,
 } from "@/app/(protected)/_actions/createPostIt.schema";
 import { Button } from "@/components/buttons/button";
-import { createPostIt } from "../_actions/createPostIt";
+import { createPostIt } from "@/app/(protected)/_actions/createPostIt";
 
-const CreatePostItForm = () => {
+type CreatePostItFormProps = {
+  onSuccess?: () => void;
+};
+
+const CreatePostItForm = ({ onSuccess }: CreatePostItFormProps) => {
   const [error, setError] = useState<string | null>(null);
   const [loading, startTransition] = useTransition();
 
@@ -25,6 +29,8 @@ const CreatePostItForm = () => {
 	  content: "",
 	},
   });
+
+  const { field: contentField, fieldState: { error: contentError } } = useController({ name: "content", control });
 
   const onSubmit = async (data: CreatePostItSchema): Promise<void> => {
 	setError(null);
@@ -37,6 +43,7 @@ const CreatePostItForm = () => {
 		  description: "Successfully created post-it",
 		  type: "info",
 		});
+		onSuccess?.();
 	  }
 	});
   };
@@ -44,12 +51,17 @@ const CreatePostItForm = () => {
   return (
 	<Stack as="form" onSubmit={handleSubmit(onSubmit)} gap="1.5rem">
 	  {error && <Alert status="error" title={error} />}
-	  <Fieldset.Root size="lg" maxW="md">
+	  <Fieldset.Root size="lg">
 		<Fieldset.Content>
 		  <TextInput name="title" title="Title" control={control} required />
-		</Fieldset.Content>
-		<Fieldset.Content>
-		  <TextInput name="content" title="Content" control={control} />
+		  <Field.Root invalid={!!contentError}>
+			<Field.Label>Content</Field.Label>
+			<Textarea
+				{...contentField}
+				placeholder="Content"
+			/>
+			{contentError && <Field.ErrorText>{contentError.message}</Field.ErrorText>}
+		  </Field.Root>
 		</Fieldset.Content>
 	  </Fieldset.Root>
 	  <Button type="submit" variant="solid" loading={loading} ml="auto">

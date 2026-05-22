@@ -2,7 +2,6 @@ import MainNavigation from "@/app/(protected)/_components/MainNavigation";
 import LogoutButton from "@/app/(public)/_components/LogoutButton";
 import Link from "@/components/typography/link";
 import { Container, HStack } from "@chakra-ui/react";
-import CreateButton from "./CreateButton";
 
 const Header = () => {
 	return (
@@ -13,7 +12,6 @@ const Header = () => {
 					<MainNavigation />
 				</HStack>
 				<HStack>
-					<CreateButton />
 					<LogoutButton />
 				</HStack>
 			</HStack>

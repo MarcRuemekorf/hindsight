@@ -11,6 +11,7 @@ import {
 	type CreatePostItSchema,
 } from "@/app/(protected)/_actions/createPostIt.schema";
 import z from "zod";
+import { revalidatePath } from "next/cache";
 
 export const createPostIt = async (data: CreatePostItSchema) => {
 	const session = await auth.api.getSession({ headers: await headers() });
@@ -28,6 +29,7 @@ export const createPostIt = async (data: CreatePostItSchema) => {
 		createdByUserId: session.user.id,
 	});
 
+	revalidatePath("/post-its");
 	return postItId;
 };
 

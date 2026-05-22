@@ -4,7 +4,7 @@ import { ButtonGroup, Pagination as ChakraPagination, IconButton } from "@chakra
 import { useRouter, useSearchParams } from "next/navigation";
 import { LuChevronLeft, LuChevronRight } from "react-icons/lu";
 
-const Pagination = ({ page = 1, pageSize = 15, count }: { page?: number; pageSize?: number; count: number }) => {
+const Pagination = ({ page = 1, pageSize = 15, count, paramName = "page" }: { page?: number; pageSize?: number; count: number; paramName?: string }) => {
 	const router = useRouter();
 	const searchParams = useSearchParams();
 
@@ -14,7 +14,7 @@ const Pagination = ({ page = 1, pageSize = 15, count }: { page?: number; pageSiz
 
 	const handlePageChange = ({ page: newPage }: { page: number }) => {
 		const params = new URLSearchParams(searchParams.toString());
-		params.set("page", String(newPage));
+		params.set(paramName, String(newPage));
 		router.push(`?${params.toString()}`);
 	};
 

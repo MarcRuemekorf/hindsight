@@ -1,15 +1,15 @@
 "use client"
 
+import CreateBoardForm from "./CreateBoardForm";
 import { Dialog, Portal } from "@chakra-ui/react";
-import CreatePostItForm from "./CreatePostItForm";
 import { Dispatch, SetStateAction } from "react";
 
-interface CreatePostItDialogProps {
+interface CreateBoardDialogProps {
   open: boolean;
   onOpenChange: Dispatch<SetStateAction<boolean>>;
 }
 
-const CreatePostItDialog = ({open, onOpenChange}: CreatePostItDialogProps) => {
+const CreateBoardDialog = ({open, onOpenChange}: CreateBoardDialogProps) => {
   return (
     <Dialog.Root open={open} onOpenChange={(details) => onOpenChange(details.open)}>
       <Portal>
@@ -18,10 +18,10 @@ const CreatePostItDialog = ({open, onOpenChange}: CreatePostItDialogProps) => {
           <Dialog.Content>
             <Dialog.CloseTrigger />
             <Dialog.Header>
-              <Dialog.Title>Create new post-it</Dialog.Title>
+              <Dialog.Title>Create new board</Dialog.Title>
             </Dialog.Header>
             <Dialog.Body>
-              <CreatePostItForm />
+              <CreateBoardForm />
             </Dialog.Body>
           </Dialog.Content>
         </Dialog.Positioner>
@@ -30,4 +30,4 @@ const CreatePostItDialog = ({open, onOpenChange}: CreatePostItDialogProps) => {
   );
 };
 
-export default CreatePostItDialog;
+export default CreateBoardDialog;
