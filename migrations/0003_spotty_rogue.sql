@@ -1,0 +1,1 @@
+ALTER TABLE "post_it" ALTER COLUMN "content" DROP NOT NULL;

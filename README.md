@@ -4,17 +4,17 @@ Hindsight lets users create fully customizable retrospective boards and invite m
 
 ## Stack
 
-| Layer | Technology |
-|---|---|
-| Framework | [Next.js 16](https://nextjs.org/) (App Router) |
-| Language | TypeScript 5 |
-| UI | [Chakra UI v3](https://www.chakra-ui.com/) |
-| Auth | [Better Auth](https://www.better-auth.com/) |
-| ORM | [Drizzle ORM](https://orm.drizzle.team/) |
-| Database | [Neon](https://neon.tech/) (PostgreSQL serverless) |
-| Forms | React Hook Form + Zod |
-| Linter / Formatter | OxLint + OxFmt |
-| Container | Docker + Docker Compose |
+| Layer              | Technology                                         |
+| ------------------ | -------------------------------------------------- |
+| Framework          | [Next.js 16](https://nextjs.org/) (App Router)     |
+| Language           | TypeScript 5                                       |
+| UI                 | [Chakra UI v3](https://www.chakra-ui.com/)         |
+| Auth               | [Better Auth](https://www.better-auth.com/)        |
+| ORM                | [Drizzle ORM](https://orm.drizzle.team/)           |
+| Database           | [Neon](https://neon.tech/) (PostgreSQL serverless) |
+| Forms              | React Hook Form + Zod                              |
+| Linter / Formatter | OxLint + OxFmt                                     |
+| Container          | Docker + Docker Compose                            |
 
 ## Prerequisites
 

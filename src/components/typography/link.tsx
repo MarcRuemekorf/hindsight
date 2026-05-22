@@ -4,19 +4,17 @@ import NextLink from "next/link";
 import * as React from "react";
 
 export interface LinkProps extends ChakraLinkProps {
-  href: string;
-  children: React.ReactNode;
+	href: string;
+	children: React.ReactNode;
 }
 
-export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
-  function Link(props, ref) {
-    const { href, children, ...rest } = props;
-    return (
-      <ChakraLink asChild ref={ref} {...rest}>
-        <NextLink href={href}>{children}</NextLink>
-      </ChakraLink>
-    );
-  },
-);
+export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(function Link(props, ref) {
+	const { href, children, ...rest } = props;
+	return (
+		<ChakraLink asChild ref={ref} {...rest}>
+			<NextLink href={href}>{children}</NextLink>
+		</ChakraLink>
+	);
+});
 
 export default Link;
