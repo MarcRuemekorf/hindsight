@@ -3,10 +3,11 @@
 import { Button } from "@/components/buttons/button";
 import { Card, HStack, Menu, Portal, Stack, Text } from "@chakra-ui/react";
 import { useState, useTransition } from "react";
-import { LuEllipsis, LuTrash2 } from "react-icons/lu";
+import { LuEllipsis, LuPencil, LuTrash2 } from "react-icons/lu";
 import { toaster } from "@/components/feedback/toaster";
 import { deletePostIt } from "@/app/(protected)/_actions/deletePostIt";
 import DeletePostItDialog from "./DeletePostItDialog";
+import EditPostItDialog from "./EditPostItDialog";
 
 export type PostIt = {
 	id: string;
@@ -17,6 +18,7 @@ export type PostIt = {
 
 const PostItCard = ({ id, title, content, createdAt }: PostIt) => {
 	const [confirmOpen, setConfirmOpen] = useState(false);
+	const [editOpen, setEditOpen] = useState(false);
 	const [deleting, startTransition] = useTransition();
 
 	const performDelete = () => {
@@ -56,6 +58,13 @@ const PostItCard = ({ id, title, content, createdAt }: PostIt) => {
 								<Menu.Positioner>
 									<Menu.Content>
 										<Menu.Item
+											value="edit"
+											onClick={() => setEditOpen(true)}
+										>
+											<LuPencil /> Edit post-it
+										</Menu.Item>
+										<Menu.Separator />
+										<Menu.Item
 											value="delete"
 											color="fg.error"
 											onClick={() => setConfirmOpen(true)}
@@ -75,6 +84,13 @@ const PostItCard = ({ id, title, content, createdAt }: PostIt) => {
 				setOpen={setConfirmOpen}
 				deleting={deleting}
 				onConfirm={performDelete}
+			/>
+			<EditPostItDialog
+				postItId={id}
+				defaultTitle={title}
+				defaultContent={content}
+				open={editOpen}
+				setOpen={setEditOpen}
 			/>
 		</>
 	);
