@@ -32,4 +32,3 @@ export const createPostIt = async (data: CreatePostItSchema) => {
 	revalidatePath("/post-its");
 	return postItId;
 };
-

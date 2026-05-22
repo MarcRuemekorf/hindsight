@@ -1,12 +1,12 @@
-"use client"
+"use client";
 
-import { Button } from "@/components/buttons/button"
-import { LuPlus } from "react-icons/lu"
-import CreateBoardDialog from "./CreateBoardDialog"
-import { useState } from "react"
+import { Button } from "@/components/buttons/button";
+import { LuPlus } from "react-icons/lu";
+import CreateBoardDialog from "./CreateBoardDialog";
+import { useState } from "react";
 
 const CreateBoardButton = () => {
-	const [openCreateBoard, setOpenCreateBoard] = useState(false)
+	const [openCreateBoard, setOpenCreateBoard] = useState(false);
 
 	return (
 		<>
@@ -15,7 +15,7 @@ const CreateBoardButton = () => {
 			</Button>
 			<CreateBoardDialog open={openCreateBoard} onOpenChange={setOpenCreateBoard} />
 		</>
-	)
-}
+	);
+};
 
-export default CreateBoardButton
+export default CreateBoardButton;

@@ -6,12 +6,12 @@ import slotRecipes from "@/theme/slot-recipes";
 import tokens from "@/theme/tokens";
 
 const config = defineConfig({
-  theme: {
-    tokens,
-    semanticTokens,
-    recipes,
-    slotRecipes,
-  },
+	theme: {
+		tokens,
+		semanticTokens,
+		recipes,
+		slotRecipes,
+	},
 });
 
 export const system = createSystem(defaultConfig, config);

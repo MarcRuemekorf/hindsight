@@ -3,18 +3,16 @@ import { Button as ChakraButton } from "@chakra-ui/react";
 import * as React from "react";
 
 interface ButtonLoadingProps {
-  disabled?: boolean;
+	disabled?: boolean;
 }
 
 export interface ButtonProps extends ChakraButtonProps, ButtonLoadingProps {}
 
-export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  function Button(props, ref) {
-    const { disabled, children, ...rest } = props;
-    return (
-      <ChakraButton disabled={rest.loading || disabled} ref={ref} {...rest}>
-        {children}
-      </ChakraButton>
-    );
-  },
-);
+export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(function Button(props, ref) {
+	const { disabled, children, ...rest } = props;
+	return (
+		<ChakraButton disabled={rest.loading || disabled} ref={ref} {...rest}>
+			{children}
+		</ChakraButton>
+	);
+});

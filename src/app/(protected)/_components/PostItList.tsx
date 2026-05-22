@@ -4,7 +4,15 @@ import { SimpleGrid, Stack, Text } from "@chakra-ui/react";
 import { getPostIts } from "@/app/(protected)/_actions/getpostIts";
 import Pagination from "./Pagination";
 
-const PostItList = async ({ page, pageSize, paramName }: { page?: number; pageSize?: number; paramName?: string }) => {
+const PostItList = async ({
+	page,
+	pageSize,
+	paramName,
+}: {
+	page?: number;
+	pageSize?: number;
+	paramName?: string;
+}) => {
 	const { postIts, totalCount } = await getPostIts({ page, pageSize });
 
 	if (postIts.length === 0) {

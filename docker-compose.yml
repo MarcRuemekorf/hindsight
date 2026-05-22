@@ -1,16 +1,16 @@
 services:
-  app:
-    build:
-      context: .
-      target: local
-    user: "${UID:-1000}:${GID:-1000}"
-    ports:
-      - "3000:3000"
-    volumes:
-      # Mount source code for hot reloading
-      - .:/app
-      - npm_cache:/var/npm
-    environment:
-      - NODE_ENV=development
+    app:
+        build:
+            context: .
+            target: local
+        user: "${UID:-1000}:${GID:-1000}"
+        ports:
+            - "3000:3000"
+        volumes:
+            # Mount source code for hot reloading
+            - .:/app
+            - npm_cache:/var/npm
+        environment:
+            - NODE_ENV=development
 volumes:
-  npm_cache:
+    npm_cache:

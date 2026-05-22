@@ -12,84 +12,84 @@ import TextInput from "@/components/form/TextInput";
 import { Alert } from "@/components/feedback/alert";
 
 const logInSchema = z.object({
-  email: z.email("Please enter a valid email address."),
-  password: z.string().min(1, "Password is required."),
-  rememberMe: z.boolean(),
+	email: z.email("Please enter a valid email address."),
+	password: z.string().min(1, "Password is required."),
+	rememberMe: z.boolean(),
 });
 
 type LogInFormValues = z.infer<typeof logInSchema>;
 
 const LoginForm = () => {
-  const router = useRouter();
-  const [error, setError] = useState<string | null>(null);
-  const [loading, startTransition] = useTransition();
+	const router = useRouter();
+	const [error, setError] = useState<string | null>(null);
+	const [loading, startTransition] = useTransition();
 
-  const { control, handleSubmit } = useForm<LogInFormValues>({
-    resolver: zodResolver(logInSchema),
-    defaultValues: {
-      email: "",
-      password: "",
-      rememberMe: false,
-    },
-  });
+	const { control, handleSubmit } = useForm<LogInFormValues>({
+		resolver: zodResolver(logInSchema),
+		defaultValues: {
+			email: "",
+			password: "",
+			rememberMe: false,
+		},
+	});
 
-  const onSubmit = async (data: LogInFormValues): Promise<void> => {
-    setError(null);
+	const onSubmit = async (data: LogInFormValues): Promise<void> => {
+		setError(null);
 
-    startTransition(async () => {
-      await logIn.email(
-        {
-          email: data.email,
-          password: data.password,
-          rememberMe: data.rememberMe,
-        },
-        {
-          onSuccess() {
-            toaster.create({
-              description: "Successfully logged in",
-              type: "info",
-            });
+		startTransition(async () => {
+			await logIn.email(
+				{
+					email: data.email,
+					password: data.password,
+					rememberMe: data.rememberMe,
+				},
+				{
+					onSuccess() {
+						toaster.create({
+							description: "Successfully logged in",
+							type: "info",
+						});
 
-            router.push("/");
-          },
-          onError(context) {
-            setError(context.error.message);
-            toaster.create({
-              description: context.error.message,
-              type: "error",
-            });
-          },
-        },
-      );
-    });
-  };
+						router.push("/");
+					},
+					onError(context) {
+						setError(context.error.message);
+						toaster.create({
+							description: context.error.message,
+							type: "error",
+						});
+					},
+				},
+			);
+		});
+	};
 
-  return (
-    <Stack as="form" onSubmit={handleSubmit(onSubmit)} gap="1.5rem">
-      {error && <Alert status="error" title={error} />}
-      <Fieldset.Root size="lg" maxW="md">
-        <Fieldset.Content>
-          <TextInput
-            name="email"
-            title="Email address"
-            control={control}
-            type="email"
-            required
-          />
-          <TextInput
-            name="password"
-            title="Password"
-            control={control}
-            type="password"
-            required
-          />
-        </Fieldset.Content>
-      </Fieldset.Root>
-      <Button type="submit" variant="solid" loading={loading}>
-        Log in
-      </Button>
-    </Stack>
-  );
+	return (
+		<Stack as="form" onSubmit={handleSubmit(onSubmit)} gap="1.5rem">
+			{error && <Alert status="error" title={error} />}
+			<Fieldset.Root size="lg" maxW="md">
+				<Fieldset.Content>
+					<TextInput
+						name="email"
+						title="Email address"
+						control={control}
+						type="email"
+						required
+					/>
+					<TextInput
+						name="password"
+						title="Password"
+						control={control}
+						type="password"
+						required
+					/>
+				</Fieldset.Content>
+			</Fieldset.Root>
+			<Button type="submit" variant="solid" loading={loading}>
+				Log in
+			</Button>
+		</Stack>
+	);
 };
 
 export default LoginForm;

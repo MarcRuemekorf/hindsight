@@ -11,7 +11,13 @@ import { CreateColumnSchema, createColumnSchema } from "../_actions/createColumn
 import { createColumn } from "../_actions/createColumn";
 import { LuPlus, LuX } from "react-icons/lu";
 
-const CreateBoardColumnForm = ({ boardId, defaultOpen = false }: { boardId: string; defaultOpen?: boolean }) => {
+const CreateBoardColumnForm = ({
+	boardId,
+	defaultOpen = false,
+}: {
+	boardId: string;
+	defaultOpen?: boolean;
+}) => {
 	const [isEditing, setIsEditing] = useState(defaultOpen);
 	const [error, setError] = useState<string | null>(null);
 	const [loading, startTransition] = useTransition();

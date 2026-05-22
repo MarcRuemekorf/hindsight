@@ -11,126 +11,121 @@ import { Alert } from "@/components/feedback/alert";
 import { toaster } from "@/components/feedback/toaster";
 
 const registerSchema = z
-  .object({
-    firstName: z
-      .string()
-      .min(2, "Name must be at least 2 characters long.")
-      .max(100, "Name must be less than 100 characters."),
-    lastName: z
-      .string()
-      .min(2, "Name must be at least 2 characters long.")
-      .max(100, "Name must be less than 100 characters."),
-    email: z
-      .string()
-      .min(1, "Email is required.")
-      .email("Please enter a valid email address."),
-    password: z.string().min(8, "Password must be at least 8 characters long."),
-    passwordConfirmation: z
-      .string()
-      .min(1, "Password confirmation is required."),
-  })
-  .refine((data) => data.password === data.passwordConfirmation, {
-    message: "Passwords do not match.",
-    path: ["passwordConfirmation"],
-  });
+	.object({
+		firstName: z
+			.string()
+			.min(2, "Name must be at least 2 characters long.")
+			.max(100, "Name must be less than 100 characters."),
+		lastName: z
+			.string()
+			.min(2, "Name must be at least 2 characters long.")
+			.max(100, "Name must be less than 100 characters."),
+		email: z.string().min(1, "Email is required.").email("Please enter a valid email address."),
+		password: z.string().min(8, "Password must be at least 8 characters long."),
+		passwordConfirmation: z.string().min(1, "Password confirmation is required."),
+	})
+	.refine((data) => data.password === data.passwordConfirmation, {
+		message: "Passwords do not match.",
+		path: ["passwordConfirmation"],
+	});
 
 type RegisterFormValues = z.infer<typeof registerSchema>;
 
 const RegisterForm = () => {
-  const [error, setError] = useState<string | null>(null);
-  const [loading, startTransition] = useTransition();
+	const [error, setError] = useState<string | null>(null);
+	const [loading, startTransition] = useTransition();
 
-  const { control, handleSubmit } = useForm<RegisterFormValues>({
-    resolver: zodResolver(registerSchema),
-    defaultValues: {
-      firstName: "",
-      lastName: "",
-      email: "",
-      password: "",
-      passwordConfirmation: "",
-    },
-  });
+	const { control, handleSubmit } = useForm<RegisterFormValues>({
+		resolver: zodResolver(registerSchema),
+		defaultValues: {
+			firstName: "",
+			lastName: "",
+			email: "",
+			password: "",
+			passwordConfirmation: "",
+		},
+	});
 
-  const onSubmit = async (data: RegisterFormValues): Promise<void> => {
-    setError(null);
+	const onSubmit = async (data: RegisterFormValues): Promise<void> => {
+		setError(null);
 
-    startTransition(async () => {
-      await register.email(
-        {
-          name: `${data.firstName} ${data.lastName}`,
-          email: data.email,
-          password: data.password,
-        },
-        {
-          onSuccess() {
-            toaster.create({
-              description: "Successfully created account",
-              type: "success",
-            });
-          },
-          onError(context) {
-            setError(context.error.message);
-            toaster.create({
-              description: context.error.message,
-              type: "error",
-            });
-          },
-        },
-      );
-    });
-  };
+		startTransition(async () => {
+			await register.email(
+				{
+					name: `${data.firstName} ${data.lastName}`,
+					email: data.email,
+					password: data.password,
+				},
+				{
+					onSuccess() {
+						toaster.create({
+							description: "Successfully created account",
+							type: "success",
+						});
+					},
+					onError(context) {
+						setError(context.error.message);
+						toaster.create({
+							description: context.error.message,
+							type: "error",
+						});
+					},
+				},
+			);
+		});
+	};
 
-  return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <Stack gap="1.5rem">
-        {error && <Alert status="error" title={error} />}
-        <Fieldset.Root size="lg" maxW="md">
-          <Fieldset.Content>
-            <HStack>
-              <TextInput
-                name="firstName"
-                title="First name"
-                control={control}
-                type="text"
-                required
-              />
-              <TextInput
-                name="lastName"
-                title="Last name"
-                control={control}
-                type="text"
-                required
-              />
-            </HStack>
-            <TextInput
-              name="email"
-              title="Email address"
-              control={control}
-              type="email"
-              required
-            />
-            <TextInput
-              name="password"
-              title="Password"
-              control={control}
-              type="password"
-              required
-            />
-            <TextInput
-              name="passwordConfirmation"
-              title="Password"
-              control={control}
-              type="password"
-              required
-            />
-          </Fieldset.Content>
-        </Fieldset.Root>
-        <Button type="submit" variant="solid" loading={loading}>
-          Create account
-        </Button>
-      </Stack>
-    </form>
-  );
+	return (
+		<form onSubmit={handleSubmit(onSubmit)}>
+			<Stack gap="1.5rem">
+				{error && <Alert status="error" title={error} />}
+				<Fieldset.Root size="lg" maxW="md">
+					<Fieldset.Content>
+						<HStack>
+							<TextInput
+								name="firstName"
+								title="First name"
+								control={control}
+								type="text"
+								required
+							/>
+							<TextInput
+								name="lastName"
+								title="Last name"
+								control={control}
+								type="text"
+								required
+							/>
+						</HStack>
+						<TextInput
+							name="email"
+							title="Email address"
+							control={control}
+							type="email"
+							required
+						/>
+						<TextInput
+							name="password"
+							title="Password"
+							control={control}
+							type="password"
+							required
+						/>
+						<TextInput
+							name="passwordConfirmation"
+							title="Password"
+							control={control}
+							type="password"
+							required
+						/>
+					</Fieldset.Content>
+				</Fieldset.Root>
+				<Button type="submit" variant="solid" loading={loading}>
+					Create account
+				</Button>
+			</Stack>
+		</form>
+	);
 };
 
 export default RegisterForm;

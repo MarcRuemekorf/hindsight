@@ -6,27 +6,27 @@ import { logOut } from "@/utils/auth-client";
 import { toaster } from "@/components/feedback/toaster";
 
 const LogoutButton = () => {
-  const router = useRouter();
+	const router = useRouter();
 
-  const onLogout = async () => {
-    await logOut({
-      fetchOptions: {
-        onSuccess: () => {
-          toaster.create({
-            description: "Successfully logged out",
-            type: "info",
-          });
-          router.push("/login");
-        },
-      },
-    });
-  };
+	const onLogout = async () => {
+		await logOut({
+			fetchOptions: {
+				onSuccess: () => {
+					toaster.create({
+						description: "Successfully logged out",
+						type: "info",
+					});
+					router.push("/login");
+				},
+			},
+		});
+	};
 
-  return (
-    <Button type="button" variant="plain" onClick={onLogout}>
-      Logout
-    </Button>
-  );
+	return (
+		<Button type="button" variant="plain" onClick={onLogout}>
+			Logout
+		</Button>
+	);
 };
 
 export default LogoutButton;

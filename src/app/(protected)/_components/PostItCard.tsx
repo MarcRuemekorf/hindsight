@@ -38,10 +38,17 @@ const PostItCard = ({ id, title, content, createdAt }: PostIt) => {
 					<Text fontWeight="bold">{title}</Text>
 					<Text>{content}</Text>
 					<HStack justifyContent="space-between" mt="auto">
-						<Text fontSize="xs" color="fg.muted">{createdAt.toLocaleDateString()}</Text>
+						<Text fontSize="xs" color="fg.muted">
+							{createdAt.toLocaleDateString()}
+						</Text>
 						<Menu.Root>
 							<Menu.Trigger asChild>
-								<Button aria-label="Post-it actions" size="xs" px="0" variant="ghost">
+								<Button
+									aria-label="Post-it actions"
+									size="xs"
+									px="0"
+									variant="ghost"
+								>
 									<LuEllipsis />
 								</Button>
 							</Menu.Trigger>

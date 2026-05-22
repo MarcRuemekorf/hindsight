@@ -4,7 +4,15 @@ import { Stack, Text } from "@chakra-ui/react";
 import { getBoards } from "../_actions/getBoards";
 import Pagination from "./Pagination";
 
-const BoardList = async ({ page, pageSize, paramName }: { page?: number; pageSize?: number; paramName?: string }) => {
+const BoardList = async ({
+	page,
+	pageSize,
+	paramName,
+}: {
+	page?: number;
+	pageSize?: number;
+	paramName?: string;
+}) => {
 	const { boards, totalCount } = await getBoards({ page, pageSize });
 
 	if (boards.length === 0) {

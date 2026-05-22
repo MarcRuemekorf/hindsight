@@ -1,7 +1,17 @@
 "use client";
 
 import Link from "@/components/typography/link";
-import { Avatar, AvatarGroup, Card, HStack, List, Menu, Portal, Stack, Text } from "@chakra-ui/react";
+import {
+	Avatar,
+	AvatarGroup,
+	Card,
+	HStack,
+	List,
+	Menu,
+	Portal,
+	Stack,
+	Text,
+} from "@chakra-ui/react";
 import { LuCalendar, LuColumns3, LuEllipsis, LuStickyNote, LuTrash2 } from "react-icons/lu";
 import { useState, useTransition } from "react";
 import { Button } from "@/components/buttons/button";
@@ -40,7 +50,6 @@ const BoardCard = ({ id, title, createdAt, columnCount, postItCount, members }: 
 
 	return (
 		<>
-		
 			<Card.Root width="100%" height="fit-content" p="1rem 1rem 0.5rem">
 				<Stack justifyContent="space-between" height="100%">
 					<HStack alignItems="flex-start">
@@ -98,7 +107,12 @@ const BoardCard = ({ id, title, createdAt, columnCount, postItCount, members }: 
 						<List.Item ml="auto">
 							<Menu.Root>
 								<Menu.Trigger asChild>
-									<Button aria-label="Board actions" size="xs" px="0" variant="ghost">
+									<Button
+										aria-label="Board actions"
+										size="xs"
+										px="0"
+										variant="ghost"
+									>
 										<LuEllipsis />
 									</Button>
 								</Menu.Trigger>
